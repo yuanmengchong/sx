@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta name="misapplication-tap-highlight" content="no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Hello, World</title>
+		<style type="text/css">
+			html {
+				height: 100%
+			}
+			body {
+				height: 100%;
+				margin: 0px;
+				padding: 0px
+			}
+			#nav{
+				left: 20%;
+			text-align:center;
+			bottom:2px;
+			position:absolute;
+		    margin-left:  px;
+			}
+			#container {
+				height: 100%
+			}
+			/*遮挡logo暂时关闭对定位按键有影响以后解决*/
+			/*.anchorBL {
+				display: none;
+			}*/
+		</style>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=YUgRHSW0lXOV8CriamIGwK2l">
+		</script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+	</head>
+
+	<body>
+		<header>
+			<div class="nvbt iback" onclick="back(true);"></div>
+			<div class="nvbt">公交</div>
+			<div class="nvbt">汽车</div>
+			<div class="nvbt">步行</div>
+			<div class="nvbt ipos">偏好</div>
+		<!--<div align="center" style="width: auto;background-color: #838383;">
+			<span>列表</span>
+			<span>步行</span>
+			<span>汽车</span>
+			<span>公交</span>
+			<button>偏好</button>
+		</div>-->
+		</header>
+			<div id="dcontent" class="dcontent">
+			<br/>
+			<div class="button" onclick="clicked('accelerometer_shake.html',true);">
+				摇一摇
+			</div>
+			<br/>
+			
+		</div>
+		<div id="container" style="width:100%;height:100%" class="container"></div>
+			<div id="nav"><span>
+				<button>附件</button>
+				<button>路线</button>
+				<button>导航</button>
+				<button>我的</button></span>
+			</div>
+			<div style="text-align:center;">
+<div  class="frend-link" style="width:100px;margin:0 auto;"><span>内容：</span>
+<a href="#">链接</a></div>
+</div>
+	</body>
+
+</html>
+<script type="text/javascript">
+	document.addEventListener("plusready", onPlusReady, false);
+	var map = null;
+	var userLng = null,
+		userLat = null;
+	var holdLng = 116.331398,
+		holdLat = 39.919141;
+		var height=document.body.clientWidth;
+		var width=document.body.clientHeight;
+	function onPlusReady() {
+			map = new BMap.Map("container"); // 创建地图实例  
+			getPos();
+			navigation();
+			var point = new BMap.Point(holdLng, holdLat);
+			map.centerAndZoom(point, 14);
+		}
+		/**
+		 * 个人位置
+		 */
+
+	function getPos() {
+			var geolocation = new BMap.Geolocation();
+			geolocation.getCurrentPosition(function(r) {
+				if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+					var mk = new BMap.Marker(r.point);
+					map.addOverlay(mk);
+					map.panTo(r.point);
+					userLng = r.point.lng;
+					userLat = r.point.lat;
+					transitRoute();
+				} else {
+					alert('failed' + this.getStatus());
+				}
+			}, {
+				enableHighAccuracy: true
+			})
+		}
+		/**
+		 * 公交导航
+		 */
+
+	function transitRoute() {
+			var p1 = new BMap.Point(userLng, userLat);
+			var p2 = new BMap.Point(holdLng, holdLat);
+			var transit = new BMap.TransitRoute(map, {
+				renderOptions: {
+					map: map
+				}
+			});
+			transit.search(p1, p2);
+		}
+		/**
+		 * 带控件的定位
+		 */
+	function navigation() {
+		//放大缩小功能
+		/*var navigationControl = new BMap.NavigationControl({
+			// 靠左上角位置
+			anchor:  BMAP_ANCHOR_TOP_LEFT,
+			// LARGE类型
+			type: BMAP_NAVIGATION_CONTROL_LARGE,
+			// 启用显示定位
+			enableGeolocation: true
+		});
+		map.addControl(navigationControl);*/
+		// 添加定位控件
+		var geolocationControl = new BMap.GeolocationControl();
+		geolocationControl.addEventListener("locationSuccess", function(e) {
+		});
+		geolocationControl.addEventListener("locationError", function(e) {
+			alert(e.message);
+		});
+		map.addControl(geolocationControl);
+	}
+</script>
