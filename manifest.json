@@ -39,9 +39,7 @@
 		"Storage": {
 			"description": "管理应用本地数据"
 		},
-		"UI": {
-			"description": "管理系统原生控件"
-		},
+		
 		"Runtime": {
 			"description": "访问运行期环境"
 		},
@@ -53,7 +51,7 @@
 		},
 		"Zip": {
 			"description": "文件压缩与解压缩"
-		}
+		},"Webview":{},"NativeUI":{},"Navigator":{}
 	},
 	"plus": {
 		"popGesture": "close",/*设置应用默认侧滑返回关闭Webview窗口，none为无侧滑返回功能，hide为侧滑隐藏Webview窗口。参考ask.dcloud.net.cn/article/102*/

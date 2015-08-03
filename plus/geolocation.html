@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
@@ -8,7 +9,8 @@
 		<meta name="MobileOptimized" content="320" />
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Hello, World</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 		<style type="text/css">
 			html {
 				height: 100%
@@ -18,12 +20,31 @@
 				margin: 0px;
 				padding: 0px
 			}
-			#nav{
-				left: 20%;
-			text-align:center;
-			bottom:2px;
-			position:absolute;
-		    margin-left:  px;
+			#nav {
+				width: 80%;
+				left: 10%;
+				text-align: center;
+				bottom: 5px;
+				height: 5%;
+				position: absolute;
+				background: white;
+				margin-left: px;
+			}
+			#nav div{
+				float:left;width: 30%; text-align: center
+			}
+			#top {
+				left: 0%;
+				text-align: center;
+				top: 0px;
+				width: 100%;
+				height: 8%;
+				background: white;
+				position: absolute;
+				margin-left: px;
+			}
+			#top div{
+				float:left;width: 25%; text-align: center
 			}
 			#container {
 				height: 100%
@@ -36,55 +57,46 @@
 		<script type="text/javascript" src="../js/common.js"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=YUgRHSW0lXOV8CriamIGwK2l">
 		</script>
-		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 	</head>
 
 	<body>
 		<header>
-			<div class="nvbt iback" onclick="back(true);"></div>
-			<div class="nvbt">公交</div>
-			<div class="nvbt">汽车</div>
-			<div class="nvbt">步行</div>
-			<div class="nvbt ipos">偏好</div>
-		<!--<div align="center" style="width: auto;background-color: #838383;">
-			<span>列表</span>
-			<span>步行</span>
-			<span>汽车</span>
-			<span>公交</span>
-			<button>偏好</button>
-		</div>-->
 		</header>
-			<div id="dcontent" class="dcontent">
-			<br/>
-			<div class="button" onclick="clicked('accelerometer_shake.html',true);">
-				摇一摇
-			</div>
-			<br/>
-			
+		<div id="container" style="width:100%;height:100%" class="container-fluid">
 		</div>
-		<div id="container" style="width:100%;height:100%" class="container"></div>
-			<div id="nav"><span>
-				<button>附件</button>
-				<button>路线</button>
-				<button>导航</button>
-				<button>我的</button></span>
+		<div id="top">
+				<br>
+			<div onclick="back(true);">
+				<--
+				</div>
+					<div onclick="transitRoute();">公交</div>
+					<div>自驾</div>
+					<div>步行</div>
 			</div>
-			<div style="text-align:center;">
-<div  class="frend-link" style="width:100px;margin:0 auto;"><span>内容：</span>
-<a href="#">链接</a></div>
-</div>
+			<div id="nav">
+				<div>导航</div>
+				<div>路线</div>
+				<div>我的</div>
+			</div>
+
 	</body>
 
 </html>
 <script type="text/javascript">
-	document.addEventListener("plusready", onPlusReady, false);
+	//	document.addEventListener("plusready", onPlusReady, false);
 	var map = null;
 	var userLng = null,
 		userLat = null;
 	var holdLng = 116.331398,
 		holdLat = 39.919141;
-		var height=document.body.clientWidth;
-		var width=document.body.clientHeight;
+	var height = document.body.clientWidth;
+	var width = document.body.clientHeight;
+	onPlusReady();
+
 	function onPlusReady() {
 			map = new BMap.Map("container"); // 创建地图实例  
 			getPos();
@@ -105,7 +117,6 @@
 					map.panTo(r.point);
 					userLng = r.point.lng;
 					userLat = r.point.lat;
-					transitRoute();
 				} else {
 					alert('failed' + this.getStatus());
 				}
@@ -130,6 +141,7 @@
 		/**
 		 * 带控件的定位
 		 */
+
 	function navigation() {
 		//放大缩小功能
 		/*var navigationControl = new BMap.NavigationControl({
@@ -143,8 +155,7 @@
 		map.addControl(navigationControl);*/
 		// 添加定位控件
 		var geolocationControl = new BMap.GeolocationControl();
-		geolocationControl.addEventListener("locationSuccess", function(e) {
-		});
+		geolocationControl.addEventListener("locationSuccess", function(e) {});
 		geolocationControl.addEventListener("locationError", function(e) {
 			alert(e.message);
 		});
