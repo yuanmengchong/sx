@@ -117,6 +117,7 @@
 					map.panTo(r.point);
 					userLng = r.point.lng;
 					userLat = r.point.lat;
+					transitRoute();
 				} else {
 					alert('failed' + this.getStatus());
 				}
